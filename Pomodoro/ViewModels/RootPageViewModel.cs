@@ -43,6 +43,10 @@ namespace Pomodoro.ViewModels
         {
             if(e.PropertyName == nameof(SelectedMenuItem))
             {
+                if (SelectedMenuItem == "Pomodoro")
+                {
+                    MessagingCenter.Send(this, "GoToPomodoro");
+                }
                 if(SelectedMenuItem=="Configuración")
                 {
                     MessagingCenter.Send(this, "GoToConfiguration");
