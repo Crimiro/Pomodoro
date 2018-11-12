@@ -1,5 +1,9 @@
 ﻿using System;
-using System.Collections.ObjectModel
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using Newtonsoft.Json;
+using Xamarin.Forms;
+
 namespace Pomodoro.ViewModels
 {
     public class HistoryPageViewModel : NotificationObject
@@ -18,6 +22,16 @@ namespace Pomodoro.ViewModels
 
         public HistoryPageViewModel()
         {
+            LoadHistory();
+        }
+        void LoadHistory()
+        {
+            if (Application.Current.Properties.ContainsKey(Literals.History))
+            {
+                var json = Application.Current.Properties[Literals.History].ToString();
+                var history = JsonConvert.DeserializeObject<List<DateTime>>(json);
+                Pomodoros = new ObservableCollection<DateTime>(history);
+            }
         }
     }
 }

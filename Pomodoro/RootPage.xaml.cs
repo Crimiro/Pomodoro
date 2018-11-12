@@ -18,6 +18,11 @@ namespace Pomodoro
                 Detail = new NavigationPage(new PomodoroPage());
                 IsPresented = false;
             });
+            MessagingCenter.Subscribe<RootPageViewModel>(this, Literals.GoToHistory, (a) =>
+            {
+                Detail = new NavigationPage(new HistoryPage());
+                IsPresented = false;
+            });
             MessagingCenter.Subscribe<RootPageViewModel>(this, "GoToConfiguration", (a) =>
             {
                 Detail = new NavigationPage(new ConfigurationPage());

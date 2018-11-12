@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Pomodoro.Views.PomodoroPage"
-             xmlns:viewModels="clr-namespace:Pomodoro.ViewModels;assembly=Pomodoro">
+             xmlns:viewModels="clr-namespace:Pomodoro.ViewModels;assembly=Pomodoro"
+             xmlns:controls="clr-namespace:Pomodoro.Controls;assembly=Pomodoro">
     <ContentPage.BindingContext>
         <viewModels:PomodoroPageViewModel/>
     </ContentPage.BindingContext>
@@ -21,6 +22,8 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        <controls:CircularProgress Progress="{Binding Elapsed.TotalSeconds}"
+                                   Max="{Binding Duration}"/>
         <Label VerticalOptions="Center"
                HorizontalOptions="Center"
                FontSize="80"

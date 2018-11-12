@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Input;
+using Newtonsoft.Json;
 using Xamarin.Forms;
 
 namespace Pomodoro.ViewModels
@@ -22,6 +24,18 @@ namespace Pomodoro.ViewModels
             set
             {
                 elapsed = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private int duration;
+
+        public int Duration
+        {
+            get { return duration; }
+            set
+            {
+                duration = value;
                 OnPropertyChanged();
             }
         }
@@ -63,6 +77,7 @@ namespace Pomodoro.ViewModels
         {
             pomodoroDutation = (int)Application.Current.Properties[Literals.PomodoroDuration];
             breakDutation = (int)Application.Current.Properties[Literals.BreakDuration];
+            Duration = pomodoroDutation * 60;
         }
 
         private void InitializeTimer()
@@ -93,11 +108,22 @@ namespace Pomodoro.ViewModels
 
         private async Task SavePomodoroAsync()
         {
+            List<DateTime> history;
             if (Application.Current.Properties.ContainsKey(Literals.History))
             {
-                var history = Application.Current.Properties[Literals.History] as ObservableCollection<DateTime>;
-                history.Add(DateTime.Now);
+                var json = Application.Current.Properties[Literals.History].ToString();
+                history = JsonConvert.DeserializeObject<List<DateTime>>(json);
             }
+            else
+            {
+                history = new List<DateTime>();
+            }
+            history.Add(DateTime.Now);
+
+            var serializedObject = JsonConvert.SerializeObject(history);
+            Application.Current.Properties[Literals.History] = serializedObject;
+
+            await Application.Current.SavePropertiesAsync();
         }
 
         private void StartTimer()

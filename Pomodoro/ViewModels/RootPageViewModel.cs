@@ -43,14 +43,20 @@ namespace Pomodoro.ViewModels
         {
             if(e.PropertyName == nameof(SelectedMenuItem))
             {
+                // No es la mejor implementación estar comparando cadenas
                 if (SelectedMenuItem == "Pomodoro")
                 {
-                    MessagingCenter.Send(this, "GoToPomodoro");
+                    MessagingCenter.Send(this, Literals.GoToPomodoro);
+                }
+                if (SelectedMenuItem == "Histórico")
+                {
+                    MessagingCenter.Send(this, Literals.GoToHistory);
                 }
                 if(SelectedMenuItem=="Configuración")
                 {
-                    MessagingCenter.Send(this, "GoToConfiguration");
+                    MessagingCenter.Send(this, Literals.GoToConfiguration);
                 }
+
             }
         }
 
